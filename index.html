@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고양이 잡기 버전 2</title>
+    <style type="text/css">
+        @font-face {
+            font-family: 'UhBeeSe_hyun';
+            src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            font-family: 'UhBeeSe_hyun', sans-serif;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        #startButton {
+            background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
+            color: white; /* 흰색 글씨 */
+            font-size: 36px;
+            border: none;
+            padding: 20px 50px;
+            cursor: pointer;
+            border-radius: 50px;
+            position: absolute;
+            bottom: 20%; /* 화면 아래쪽 중앙 */
+            left: 50%; /* 중앙 정렬 */
+            transform: translate(-50%, 50%); /* 중앙 정렬을 위한 변환 */
+            z-index: 10; /* 텍스트와 이미지 위에 표시 */
+        }
+
+        #text1, #text2, #text3, #text4, #text5, #text6 {
+            font-size: 36px;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            color: black;
+            display: none;
+            z-index: 2; /* 텍스트를 이미지 위에 표시 */
+        }
+
+        #text1 { top: 10%; }
+        #text2 { top: 20%; }
+        #text3 { top: 30%; }
+        #text4 { top: 40%; }
+        #text5 { top: 20%; }
+        #text6 { top: 30%; }
+
+        #catImage {
+            width: 30%;
+            height: auto;
+            position: absolute;
+            left: 50%; /* 중앙 정렬을 위해 수정 */
+            transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+            z-index: 1; /* 이미지 아래에 텍스트가 위치 */
+            margin-top: 20%;
+        }
+
+        #catrunImage {
+            width: 30%;
+            position: absolute;
+            z-index: 1; /* 이미지 아래에 텍스트가 위치 */
+            left: 50%; /* 중앙 정렬을 위해 수정 */
+            transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+            display: none; /* 기본적으로 보이지 않도록 설정 */
+        }
+
+        #nameInput {
+            font-size: 20px;
+            padding: 5px;
+            margin: 10px;
+            width: 20%;
+            z-index: 100;
+            display: none; /* 기본적으로 보이지 않도록 설정 */
+            position: absolute; /* 중앙 정렬을 위한 절대 위치 설정 */
+            left: 50%; /* 중앙 정렬 */
+            top: 50%; /* 중앙 정렬 */
+            transform: translate(-50%, -50%); /* 중앙 정렬을 위한 변환 */
+        }
+
+        #submitBtn {
+            font-size: 20px;
+            margin: 5px;
+            padding: 5px;
+            width: 7%;
+            z-index: 50;
+            display: none; /* 기본적으로 보이지 않도록 설정 */
+            position: absolute; /* 중앙 정렬을 위한 절대 위치 설정 */
+            left: 50%; /* 중앙 정렬 */
+            top: 55%; /* 중앙 정렬 */
+            transform: translate(-50%, -50%); /* 중앙 정렬을 위한 변환 */
+        }
+        
+        #backgroundImage {
+            background-size: cover;
+            width: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute; /* 절대 위치로 설정 */
+            top: 0; /* 상단 고정 */
+            left: 0; /* 좌측 고정 */
+            z-index: 0; /* 배경 이미지를 가장 뒤로 */
+        }
+    </style>
+</head>
+<body>
+
+    <button id="startButton">이어하기</button>
+
+    <div id="text1">고양이..?</div>
+    <div id="text2">내가 고양이를 키운적이 있었나...?</div>
+    <div id="text3">으악!!!! 어디서 들어온 고양이야!!</div>
+    <div id="text4">일단 고양이를 잡아보자!</div>
+    <div id="text5">음.... 이 고양이를 어쩌지...</div>
+    <div id="text6">일단 고양이의 이름을 지어주자!</div>
+    
+    <img id="catImage" src="cat2.png" alt="Cat Image">
+    <img id="catrunImage" src="cat_run.png" alt="Cat Running Image">
+    <img id="backgroundImage" src="background.png" alt="background Image">
+
+    <input type="text" id="nameInput" placeholder="고양이의 이름을 입력하세요">
+    <button id="submitBtn">이름 제출</button>
+
+    <script>
+        // 게임 시작 버튼 클릭 이벤트
+        document.getElementById('startButton').addEventListener('click', function() {
+            this.style.display = 'none'; // 버튼 숨기기
+            startGame(); // 게임 시작
+        });
+
+        function startGame() {
+            // 게임이 시작될 때 배경 이미지 숨기기
+            document.getElementById('backgroundImage').style.display = 'none'; // 배경 이미지 숨기기
+
+            // 1.5초 후 첫 번째 텍스트 표시
+            setTimeout(() => {
+                document.getElementById('text1').style.display = 'block';
+            }, 1500);
+
+            // 3초 후 두 번째 텍스트 표시
+            setTimeout(() => {
+                document.getElementById('text2').style.display = 'block';
+            }, 3000);
+
+            // 4.5초 후 세 번째 텍스트 표시 및 이미지 변경
+            setTimeout(() => {
+                document.getElementById('text3').style.display = 'block';
+                document.getElementById('catImage').src = 'cat3.png'; // 이미지 변경
+            }, 4500);
+
+            // 6초 후 모든 텍스트를 제거하고 새로운 텍스트 및 고양이 이미지 변경
+            setTimeout(() => {
+                document.getElementById('text1').style.display = 'none';
+                document.getElementById('text2').style.display = 'none';
+                document.getElementById('text3').style.display = 'none';
+                document.getElementById('catImage').style.display = 'none';
+                document.getElementById('text4').style.display = 'block';
+                document.getElementById('catrunImage').style.display = 'block'; // 이미지 표시
+                moveCat(); // 고양이를 계속 움직이도록 시작
+            }, 6000);
+
+            let gameOver = false; // 게임 오버 상태를 추적하는 변수
+            let cat = document.getElementById('catrunImage');
+
+            function moveCat() {
+                const containerWidth = window.innerWidth - cat.offsetWidth; // 화면 가로폭 설정
+                const containerHeight = window.innerHeight - cat.offsetHeight; // 화면 세로폭 설정
+
+                function animate() {
+                    if (gameOver) return; // 게임 오버 상태이면 애니메이션 종료
+
+                    const mouseX = mousePos.x;
+                    const mouseY = mousePos.y;
+
+                    const currentLeft = parseFloat(cat.style.left) || Math.random() * containerWidth;
+                    const currentTop = parseFloat(cat.style.top) || Math.random() * containerHeight;
+
+                    // 마우스와의 거리 계산
+                    const distanceX = mouseX - currentLeft;
+                    const distanceY = mouseY - currentTop;
+                    const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+                    // 마우스를 피하는 방향으로 이동
+                    if (distance < 2000) { // 마우스와의 거리가 2000px 이내일 때
+                        const angle = Math.atan2(distanceY, distanceX);
+                        const speed = 10; // 고양이의 속도 증가
+                        const newLeft = currentLeft - Math.cos(angle) * speed; // 고양이 이동
+                        const newTop = currentTop - Math.sin(angle) * speed; // 고양이 이동
+
+                        // 경계 체크
+                        if (newLeft < 0) cat.style.left = '0px';
+                        else if (newLeft > containerWidth) cat.style.left = `${containerWidth}px`;
+                        else cat.style.left = `${newLeft}px`;
+
+                        if (newTop < 0) cat.style.top = '0px';
+                        else if (newTop > containerHeight) cat.style.top = `${containerHeight}px`;
+                        else cat.style.top = `${newTop}px`;
+                    } else {
+                        // 마우스와의 거리가 멀면 약간 랜덤하게 이동
+                        const newLeft = currentLeft + (Math.random() - 0.5) * 2;
+                        const newTop = currentTop + (Math.random() - 0.5) * 2;
+
+                        // 경계 체크
+                        if (newLeft < 0) cat.style.left = '0px';
+                        else if (newLeft > containerWidth) cat.style.left = `${containerWidth}px`;
+                        else cat.style.left = `${newLeft}px`;
+
+                        if (newTop < 0) cat.style.top = '0px';
+                        else if (newTop > containerHeight) cat.style.top = `${containerHeight}px`;
+                        else cat.style.top = `${newTop}px`;
+                    }
+
+                    requestAnimationFrame(animate); // 애니메이션을 계속 호출
+                }
+                animate(); // 애니메이션 시작
+            }
+
+            // 마우스 위치 추적
+            const mousePos = { x: 0, y: 0 };
+            document.addEventListener('mousemove', (event) => {
+                mousePos.x = event.clientX;
+                mousePos.y = event.clientY;
+            });
+
+            // 고양이를 클릭하면 멈추고 텍스트 변경
+            cat.addEventListener('click', () => {
+                gameOver = true; // 게임 오버 상태로 설정
+                document.getElementById('text4').textContent = '고양이를 잡았다!'; // 텍스트 변경
+
+                // 2초 후 '음....이 고양이를 어쩌지...' 텍스트 표시
+                setTimeout(() => {
+                    document.getElementById('text4').style.display = 'none'; // 이전 텍스트 숨기기
+                    document.getElementById('text5').style.display = 'block'; // 새로운 텍스트 표시
+
+                    // 2초 후 '일단 고양이의 이름을 지어주자' 텍스트 표시
+                    setTimeout(() => {
+                        document.getElementById('text5').style.display = 'none'; // 이전 텍스트 숨기기
+                        document.getElementById('text6').style.display = 'block'; // 새로운 텍스트 표시
+                        document.getElementById('nameInput').style.display = 'block'; // 입력란 표시
+                        document.getElementById('submitBtn').style.display = 'block'; // 버튼 표시
+                    }, 2000);
+                }, 2000);
+            });
+
+            // 이름 제출 버튼 클릭 시
+            document.getElementById('submitBtn').addEventListener('click', () => {
+                const catName = document.getElementById('nameInput').value; // 입력된 고양이 이름 가져오기
+                if (catName) {
+                    alert(`고양이의 이름은 "${catName}"입니다!`); // 이름 확인 알림
+                }
+            });
+        }
+    </script>
+
+</body> 
+</html>
+
+
+
